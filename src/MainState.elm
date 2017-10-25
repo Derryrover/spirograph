@@ -26,7 +26,7 @@ initialModel =
 initialModel =
   { spirograph1 = spirograph1
   , spirograph2 = spirograph2
-  , samples = 500
+  , samples = 300
   , timingRecord = timingRecord
   }
 
@@ -38,28 +38,28 @@ makeSpiro spiro samples =
      List.map (\p -> p + 200) coordinateList
 
 timingRecord =
-  { timeIntervals = 80
+  { timeIntervals = 600
   , currentTimeInterval = 0
   , animationDirection = To }
 
 circle1 =
-  { radius = 60
-  , speed = 13
+  { radius = 40
+  , speed = -31
   }
 
 circle2 =
-    { radius = 140
-    , speed = 1
+    { radius = 160
+    , speed = 2
     }
 
 circle3 =
-  { radius = 70
-  , speed = 29
+  { radius = -130
+  , speed = -33
   }
 
 circle4 =
-  { radius = 130
-  , speed = 1
+  { radius = 70
+  , speed = 2
   }
 
 spirograph1 =
