@@ -14,7 +14,7 @@ type alias Model =
 -}
 
 type alias Circle =
-    { radius : Int
+    { radius : Float
     , speed : Float
     }
 

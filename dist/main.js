@@ -8327,12 +8327,12 @@ var _Derryrover$spirograph$PortSendCoordinates$sendCoordinates3 = _elm_lang$core
 
 var _Derryrover$spirograph$SinCos$singleCircleCos = F2(
 	function (fraction, circle) {
-		var radiusFloat = _elm_lang$core$Basics$toFloat(circle.radius);
+		var radiusFloat = circle.radius;
 		return radiusFloat * _elm_lang$core$Basics$cos(circle.speed * fraction);
 	});
 var _Derryrover$spirograph$SinCos$singleCircleSin = F2(
 	function (fraction, circle) {
-		var radiusFloat = _elm_lang$core$Basics$toFloat(circle.radius);
+		var radiusFloat = circle.radius;
 		return radiusFloat * _elm_lang$core$Basics$sin(circle.speed * fraction);
 	});
 
@@ -8978,8 +8978,7 @@ var _Derryrover$spirograph$SpirographAverage$circle = F4(
 		var dSpeed = cir2.speed - cir1.speed;
 		var newSpeed = cir1.speed + (dSpeed * fraction);
 		var dRadius = cir2.radius - cir1.radius;
-		var newRadius = cir1.radius + _elm_lang$core$Basics$round(
-			_elm_lang$core$Basics$toFloat(dRadius) * fraction);
+		var newRadius = cir1.radius + (dRadius * fraction);
 		return {radius: newRadius, speed: newSpeed};
 	});
 var _Derryrover$spirograph$SpirographAverage$spirograph = F4(
@@ -8998,10 +8997,10 @@ var _Derryrover$spirograph$MainState$subscriptions = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _Derryrover$spirograph$MainState$circle4 = {radius: 70, speed: 2};
+var _Derryrover$spirograph$MainState$circle4 = {radius: 70, speed: 3};
 var _Derryrover$spirograph$MainState$circle3 = {radius: -130, speed: -33};
 var _Derryrover$spirograph$MainState$spirograph2 = {circle1: _Derryrover$spirograph$MainState$circle3, circle2: _Derryrover$spirograph$MainState$circle4};
-var _Derryrover$spirograph$MainState$circle2 = {radius: 160, speed: 2};
+var _Derryrover$spirograph$MainState$circle2 = {radius: 160, speed: 3};
 var _Derryrover$spirograph$MainState$circle1 = {radius: 40, speed: -31};
 var _Derryrover$spirograph$MainState$spirograph1 = {circle1: _Derryrover$spirograph$MainState$circle1, circle2: _Derryrover$spirograph$MainState$circle2};
 var _Derryrover$spirograph$MainState$timingRecord = {timeIntervals: 600, currentTimeInterval: 0, animationDirection: _Derryrover$spirograph$MainTypes$To};

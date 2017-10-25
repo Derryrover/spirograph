@@ -49,7 +49,7 @@ circle1 =
 
 circle2 =
     { radius = 160
-    , speed = 2
+    , speed = 3
     }
 
 circle3 =
@@ -59,7 +59,7 @@ circle3 =
 
 circle4 =
   { radius = 70
-  , speed = 2
+  , speed = 3
   }
 
 spirograph1 =

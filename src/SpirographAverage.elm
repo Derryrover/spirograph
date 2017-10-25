@@ -7,7 +7,8 @@ circle cir1 cir2 maxi curr =
     dRadius = cir2.radius - cir1.radius
     dSpeed = cir2.speed - cir1.speed
     fraction = (toFloat curr) / (toFloat maxi)
-    newRadius = cir1.radius + (round ((toFloat dRadius) * fraction))
+    --newRadius = cir1.radius + (round ((toFloat dRadius) * fraction))
+    newRadius = cir1.radius + ( dRadius * fraction)
     newSpeed = cir1.speed + (dSpeed * fraction)
   in
     {radius = newRadius, speed = newSpeed}
