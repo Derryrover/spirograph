@@ -1,6 +1,7 @@
 module SinCos exposing(..)
 
 import MainTypes exposing(..)
+import SpirographTypes exposing(..)
 
 singleCircleSin: Float -> Circle -> Float
 singleCircleSin fraction circle
