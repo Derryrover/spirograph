@@ -1,6 +1,6 @@
-module Spirograph exposing (..)
+module SpirographToCoordinates exposing (..)
 
-import MainTypes exposing(..)
+import SpirographTypes exposing(..)
 import SinCos
 
 calculateCoordinate: Float -> Circle -> Circle -> (Int,Int)

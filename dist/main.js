@@ -3179,22 +3179,41 @@ var _Derryrover$spirograph$DevideTwoPiEqual$devide = function (samples) {
 		listInt);
 };
 
-var _Derryrover$spirograph$MainTypes$Model = F4(
-	function (a, b, c, d) {
-		return {spirograph1: a, spirograph2: b, samples: c, timingRecord: d};
-	});
-var _Derryrover$spirograph$MainTypes$Circle = F2(
+var _Derryrover$spirograph$SpirographTypes$Circle = F2(
 	function (a, b) {
 		return {radius: a, speed: b};
 	});
-var _Derryrover$spirograph$MainTypes$SpirographModel = F2(
+var _Derryrover$spirograph$SpirographTypes$Model = F2(
 	function (a, b) {
 		return {circle1: a, circle2: b};
+	});
+var _Derryrover$spirograph$SpirographTypes$Radius2 = function (a) {
+	return {ctor: 'Radius2', _0: a};
+};
+var _Derryrover$spirograph$SpirographTypes$Radius1 = function (a) {
+	return {ctor: 'Radius1', _0: a};
+};
+var _Derryrover$spirograph$SpirographTypes$Speed2 = function (a) {
+	return {ctor: 'Speed2', _0: a};
+};
+var _Derryrover$spirograph$SpirographTypes$Speed1 = function (a) {
+	return {ctor: 'Speed1', _0: a};
+};
+
+var _Derryrover$spirograph$MainTypes$Model = F4(
+	function (a, b, c, d) {
+		return {spirograph1: a, spirograph2: b, samples: c, timingRecord: d};
 	});
 var _Derryrover$spirograph$MainTypes$TimingRecord = F3(
 	function (a, b, c) {
 		return {timeIntervals: a, currentTimeInterval: b, animationDirection: c};
 	});
+var _Derryrover$spirograph$MainTypes$SpirographMsg2 = function (a) {
+	return {ctor: 'SpirographMsg2', _0: a};
+};
+var _Derryrover$spirograph$MainTypes$SpirographMsg1 = function (a) {
+	return {ctor: 'SpirographMsg1', _0: a};
+};
 var _Derryrover$spirograph$MainTypes$Frame = function (a) {
 	return {ctor: 'Frame', _0: a};
 };
@@ -8293,11 +8312,399 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _elm_community$html_extra$Html_Events_Extra$onEnter = function (onEnterAction) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'keyup',
+		A2(
+			_elm_lang$core$Json_Decode$andThen,
+			function (keyCode) {
+				return _elm_lang$core$Native_Utils.eq(keyCode, 13) ? _elm_lang$core$Json_Decode$succeed(onEnterAction) : _elm_lang$core$Json_Decode$fail(
+					_elm_lang$core$Basics$toString(keyCode));
+			},
+			_elm_lang$html$Html_Events$keyCode));
+};
+var _elm_community$html_extra$Html_Events_Extra$onClickPreventDefaultAndStopPropagation = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'click',
+		_elm_lang$core$Native_Utils.update(
+			_elm_lang$html$Html_Events$defaultOptions,
+			{stopPropagation: true, preventDefault: true}),
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_community$html_extra$Html_Events_Extra$onClickStopPropagation = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'click',
+		_elm_lang$core$Native_Utils.update(
+			_elm_lang$html$Html_Events$defaultOptions,
+			{stopPropagation: true}),
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_community$html_extra$Html_Events_Extra$onClickPreventDefault = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'click',
+		_elm_lang$core$Native_Utils.update(
+			_elm_lang$html$Html_Events$defaultOptions,
+			{preventDefault: true}),
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_community$html_extra$Html_Events_Extra$targetSelectedIndex = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'selectedIndex',
+			_1: {ctor: '[]'}
+		}
+	},
+	A2(
+		_elm_lang$core$Json_Decode$map,
+		function ($int) {
+			return _elm_lang$core$Native_Utils.eq($int, -1) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just($int);
+		},
+		_elm_lang$core$Json_Decode$int));
+var _elm_community$html_extra$Html_Events_Extra$targetValueInt = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'valueAsNumber',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$int);
+var _elm_community$html_extra$Html_Events_Extra$customDecoder = F2(
+	function (d, f) {
+		var resultDecoder = function (x) {
+			var _p0 = x;
+			if (_p0.ctor === 'Ok') {
+				return _elm_lang$core$Json_Decode$succeed(_p0._0);
+			} else {
+				return _elm_lang$core$Json_Decode$fail(_p0._0);
+			}
+		};
+		return A2(
+			_elm_lang$core$Json_Decode$andThen,
+			resultDecoder,
+			A2(_elm_lang$core$Json_Decode$map, f, d));
+	});
+var _elm_community$html_extra$Html_Events_Extra$targetValueFloat = A2(
+	_elm_community$html_extra$Html_Events_Extra$customDecoder,
+	A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'target',
+			_1: {
+				ctor: '::',
+				_0: 'valueAsNumber',
+				_1: {ctor: '[]'}
+			}
+		},
+		_elm_lang$core$Json_Decode$float),
+	function (v) {
+		return _elm_lang$core$Basics$isNaN(v) ? _elm_lang$core$Result$Err('Not a number') : _elm_lang$core$Result$Ok(v);
+	});
+var _elm_community$html_extra$Html_Events_Extra$targetValueMaybe = A2(
+	_elm_community$html_extra$Html_Events_Extra$customDecoder,
+	_elm_lang$html$Html_Events$targetValue,
+	function (s) {
+		return _elm_lang$core$Result$Ok(
+			_elm_lang$core$Native_Utils.eq(s, '') ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(s));
+	});
+var _elm_community$html_extra$Html_Events_Extra$targetValueMaybeFloat = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	function (mval) {
+		var _p1 = mval;
+		if (_p1.ctor === 'Nothing') {
+			return _elm_lang$core$Json_Decode$succeed(_elm_lang$core$Maybe$Nothing);
+		} else {
+			return A2(_elm_lang$core$Json_Decode$map, _elm_lang$core$Maybe$Just, _elm_community$html_extra$Html_Events_Extra$targetValueFloat);
+		}
+	},
+	_elm_community$html_extra$Html_Events_Extra$targetValueMaybe);
+var _elm_community$html_extra$Html_Events_Extra$targetValueMaybeInt = function () {
+	var traverse = F2(
+		function (f, mx) {
+			var _p2 = mx;
+			if (_p2.ctor === 'Nothing') {
+				return _elm_lang$core$Result$Ok(_elm_lang$core$Maybe$Nothing);
+			} else {
+				return A2(
+					_elm_lang$core$Result$map,
+					_elm_lang$core$Maybe$Just,
+					f(_p2._0));
+			}
+		});
+	return A2(
+		_elm_community$html_extra$Html_Events_Extra$customDecoder,
+		_elm_community$html_extra$Html_Events_Extra$targetValueMaybe,
+		traverse(_elm_lang$core$String$toInt));
+}();
+var _elm_community$html_extra$Html_Events_Extra$targetValueFloatParse = A2(_elm_community$html_extra$Html_Events_Extra$customDecoder, _elm_lang$html$Html_Events$targetValue, _elm_lang$core$String$toFloat);
+var _elm_community$html_extra$Html_Events_Extra$targetValueIntParse = A2(_elm_community$html_extra$Html_Events_Extra$customDecoder, _elm_lang$html$Html_Events$targetValue, _elm_lang$core$String$toInt);
+var _elm_community$html_extra$Html_Events_Extra$targetValueMaybeFloatParse = function () {
+	var traverse = F2(
+		function (f, mx) {
+			var _p3 = mx;
+			if (_p3.ctor === 'Nothing') {
+				return _elm_lang$core$Result$Ok(_elm_lang$core$Maybe$Nothing);
+			} else {
+				return A2(
+					_elm_lang$core$Result$map,
+					_elm_lang$core$Maybe$Just,
+					f(_p3._0));
+			}
+		});
+	return A2(
+		_elm_community$html_extra$Html_Events_Extra$customDecoder,
+		_elm_community$html_extra$Html_Events_Extra$targetValueMaybe,
+		traverse(_elm_lang$core$String$toFloat));
+}();
+var _elm_community$html_extra$Html_Events_Extra$targetValueMaybeIntParse = function () {
+	var traverse = F2(
+		function (f, mx) {
+			var _p4 = mx;
+			if (_p4.ctor === 'Nothing') {
+				return _elm_lang$core$Result$Ok(_elm_lang$core$Maybe$Nothing);
+			} else {
+				return A2(
+					_elm_lang$core$Result$map,
+					_elm_lang$core$Maybe$Just,
+					f(_p4._0));
+			}
+		});
+	return A2(
+		_elm_community$html_extra$Html_Events_Extra$customDecoder,
+		_elm_community$html_extra$Html_Events_Extra$targetValueMaybe,
+		traverse(_elm_lang$core$String$toInt));
+}();
+var _elm_community$html_extra$Html_Events_Extra$charCode = A2(
+	_elm_lang$core$Json_Decode$map,
+	function (_p5) {
+		return A2(
+			_elm_lang$core$Maybe$map,
+			_elm_lang$core$Tuple$first,
+			_elm_lang$core$String$uncons(_p5));
+	},
+	A2(_elm_lang$core$Json_Decode$field, 'charCode', _elm_lang$core$Json_Decode$string));
+
+var _Derryrover$spirograph$SpirographView$inputToFloatWithMessage = F2(
+	function (msgFunc, str) {
+		var fl1 = _elm_lang$core$String$toFloat(str);
+		var _p0 = fl1;
+		if (_p0.ctor === 'Ok') {
+			return msgFunc(_p0._0);
+		} else {
+			return msgFunc(0.0);
+		}
+	});
+var _Derryrover$spirograph$SpirographView$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'color', _1: 'white'},
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('speed1'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onInput(
+							_Derryrover$spirograph$SpirographView$inputToFloatWithMessage(_Derryrover$spirograph$SpirographTypes$Speed1)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('number'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder(
+									_elm_lang$core$Basics$toString(model.circle1.speed)),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'color', _1: 'white'},
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('radius1'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(
+									_Derryrover$spirograph$SpirographView$inputToFloatWithMessage(_Derryrover$spirograph$SpirographTypes$Radius1)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('number'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder(
+											_elm_lang$core$Basics$toString(model.circle1.radius)),
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$style(
+										{
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'color', _1: 'white'},
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('speed2'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(
+											_Derryrover$spirograph$SpirographView$inputToFloatWithMessage(_Derryrover$spirograph$SpirographTypes$Speed2)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('number'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$placeholder(
+													_elm_lang$core$Basics$toString(model.circle2.speed)),
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$label,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$style(
+												{
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'color', _1: 'white'},
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('radius2'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(
+													_Derryrover$spirograph$SpirographView$inputToFloatWithMessage(_Derryrover$spirograph$SpirographTypes$Radius2)),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('number'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$placeholder(
+															_elm_lang$core$Basics$toString(model.circle2.radius)),
+														_1: {ctor: '[]'}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _Derryrover$spirograph$SpirographView$inputToFloat = function (str) {
+	var fl1 = _elm_lang$core$String$toFloat(str);
+	var _p1 = fl1;
+	if (_p1.ctor === 'Ok') {
+		return _Derryrover$spirograph$SpirographTypes$Speed2(_p1._0);
+	} else {
+		return _Derryrover$spirograph$SpirographTypes$Speed2(0.0);
+	}
+};
+
 var _Derryrover$spirograph$MainView$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		{ctor: '[]'});
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$map,
+				_Derryrover$spirograph$MainTypes$SpirographMsg1,
+				_Derryrover$spirograph$SpirographView$view(model.spirograph1)),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$map,
+					_Derryrover$spirograph$MainTypes$SpirographMsg2,
+					_Derryrover$spirograph$SpirographView$view(model.spirograph2)),
+				_1: {ctor: '[]'}
+			}
+		});
 };
 
 var _Derryrover$spirograph$PortSendCoordinates$sendCoordinates1 = _elm_lang$core$Native_Platform.outgoingPort(
@@ -8325,18 +8732,96 @@ var _Derryrover$spirograph$PortSendCoordinates$sendCoordinates3 = _elm_lang$core
 			});
 	});
 
+var _Derryrover$spirograph$SpirographInit$circle4 = {radius: 70, speed: 3};
+var _Derryrover$spirograph$SpirographInit$circle3 = {radius: -130, speed: -33};
+var _Derryrover$spirograph$SpirographInit$spirograph2 = {circle1: _Derryrover$spirograph$SpirographInit$circle3, circle2: _Derryrover$spirograph$SpirographInit$circle4};
+var _Derryrover$spirograph$SpirographInit$circle2 = {radius: 160, speed: 3};
+var _Derryrover$spirograph$SpirographInit$circle1 = {radius: 40, speed: -31};
+var _Derryrover$spirograph$SpirographInit$spirograph1 = {circle1: _Derryrover$spirograph$SpirographInit$circle1, circle2: _Derryrover$spirograph$SpirographInit$circle2};
+
+var _Derryrover$spirograph$SpirographState$init = function (bool) {
+	var _p0 = bool;
+	if (_p0 === false) {
+		return {ctor: '_Tuple2', _0: _Derryrover$spirograph$SpirographInit$spirograph1, _1: _elm_lang$core$Platform_Cmd$none};
+	} else {
+		return {ctor: '_Tuple2', _0: _Derryrover$spirograph$SpirographInit$spirograph2, _1: _elm_lang$core$Platform_Cmd$none};
+	}
+};
+var _Derryrover$spirograph$SpirographState$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'Speed1':
+				var circle1 = model.circle1;
+				var circle1Updated = _elm_lang$core$Native_Utils.update(
+					circle1,
+					{speed: _p1._0});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{circle1: circle1Updated}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Speed2':
+				var circle2 = model.circle2;
+				var circle2Updated = _elm_lang$core$Native_Utils.update(
+					circle2,
+					{speed: _p1._0});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{circle2: circle2Updated}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Radius1':
+				var circle1 = model.circle1;
+				var circle1Updated = _elm_lang$core$Native_Utils.update(
+					circle1,
+					{radius: _p1._0});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{circle1: circle1Updated}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var circle2 = model.circle2;
+				var circle2Updated = _elm_lang$core$Native_Utils.update(
+					circle2,
+					{radius: _p1._0});
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{circle2: circle2Updated}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+
+var _Derryrover$spirograph$SpirographMain$view = _Derryrover$spirograph$SpirographView$view;
+var _Derryrover$spirograph$SpirographMain$init = _Derryrover$spirograph$SpirographState$init;
+var _Derryrover$spirograph$SpirographMain$update = _Derryrover$spirograph$SpirographState$update;
+var _Derryrover$spirograph$SpirographMain$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		{ctor: '[]'});
+};
+
 var _Derryrover$spirograph$SinCos$singleCircleCos = F2(
 	function (fraction, circle) {
-		var radiusFloat = _elm_lang$core$Basics$toFloat(circle.radius);
+		var radiusFloat = circle.radius;
 		return radiusFloat * _elm_lang$core$Basics$cos(circle.speed * fraction);
 	});
 var _Derryrover$spirograph$SinCos$singleCircleSin = F2(
 	function (fraction, circle) {
-		var radiusFloat = _elm_lang$core$Basics$toFloat(circle.radius);
+		var radiusFloat = circle.radius;
 		return radiusFloat * _elm_lang$core$Basics$sin(circle.speed * fraction);
 	});
 
-var _Derryrover$spirograph$Spirograph$foldFunc = F2(
+var _Derryrover$spirograph$SpirographToCoordinates$foldFunc = F2(
 	function (_p0, listInt) {
 		var _p1 = _p0;
 		return _elm_lang$core$List$concat(
@@ -8358,7 +8843,7 @@ var _Derryrover$spirograph$Spirograph$foldFunc = F2(
 				}
 			});
 	});
-var _Derryrover$spirograph$Spirograph$calculateCoordinate = F3(
+var _Derryrover$spirograph$SpirographToCoordinates$calculateCoordinate = F3(
 	function (fraction, circle1, circle2) {
 		var y = A2(_Derryrover$spirograph$SinCos$singleCircleCos, fraction, circle1) + A2(_Derryrover$spirograph$SinCos$singleCircleCos, fraction, circle2);
 		var x = A2(_Derryrover$spirograph$SinCos$singleCircleSin, fraction, circle1) + A2(_Derryrover$spirograph$SinCos$singleCircleSin, fraction, circle2);
@@ -8368,20 +8853,37 @@ var _Derryrover$spirograph$Spirograph$calculateCoordinate = F3(
 			_1: _elm_lang$core$Basics$round(y)
 		};
 	});
-var _Derryrover$spirograph$Spirograph$calculateCoordinateList = F3(
+var _Derryrover$spirograph$SpirographToCoordinates$calculateCoordinateList = F3(
 	function (fractions, circle1, circle2) {
 		var tuplesList = A2(
 			_elm_lang$core$List$map,
 			function (frac) {
-				return A3(_Derryrover$spirograph$Spirograph$calculateCoordinate, frac, circle1, circle2);
+				return A3(_Derryrover$spirograph$SpirographToCoordinates$calculateCoordinate, frac, circle1, circle2);
 			},
 			fractions);
 		return A3(
 			_elm_lang$core$List$foldl,
-			_Derryrover$spirograph$Spirograph$foldFunc,
+			_Derryrover$spirograph$SpirographToCoordinates$foldFunc,
 			{ctor: '[]'},
 			tuplesList);
 	});
+
+var _Derryrover$spirograph$SpirographAverage$circle = F4(
+	function (cir1, cir2, maxi, curr) {
+		var fraction = _elm_lang$core$Basics$toFloat(curr) / _elm_lang$core$Basics$toFloat(maxi);
+		var dSpeed = cir2.speed - cir1.speed;
+		var newSpeed = cir1.speed + (dSpeed * fraction);
+		var dRadius = cir2.radius - cir1.radius;
+		var newRadius = cir1.radius + (dRadius * fraction);
+		return {radius: newRadius, speed: newSpeed};
+	});
+var _Derryrover$spirograph$SpirographAverage$spirograph = F4(
+	function (spir1, spir2, maxi, curr) {
+		var circle2 = A4(_Derryrover$spirograph$SpirographAverage$circle, spir1.circle2, spir2.circle2, maxi, curr);
+		var circle1 = A4(_Derryrover$spirograph$SpirographAverage$circle, spir1.circle1, spir2.circle1, maxi, curr);
+		return {circle1: circle1, circle2: circle2};
+	});
+var _Derryrover$spirograph$SpirographAverage$a = 1;
 
 var _elm_lang$animation_frame$Native_AnimationFrame = function()
 {
@@ -8972,24 +9474,6 @@ var _Derryrover$spirograph$TimeIntervalCalculator$calc = function (_p0) {
 	return (_elm_lang$core$Native_Utils.eq(_p3, _p4) && _elm_lang$core$Native_Utils.eq(_p2, _Derryrover$spirograph$MainTypes$To)) ? {timeIntervals: _p4, currentTimeInterval: _p3, animationDirection: _Derryrover$spirograph$MainTypes$Back} : ((_elm_lang$core$Native_Utils.eq(_p3, 0) && _elm_lang$core$Native_Utils.eq(_p2, _Derryrover$spirograph$MainTypes$Back)) ? {timeIntervals: _p4, currentTimeInterval: _p3, animationDirection: _Derryrover$spirograph$MainTypes$To} : (_elm_lang$core$Native_Utils.eq(_p2, _Derryrover$spirograph$MainTypes$To) ? {timeIntervals: _p4, currentTimeInterval: _p3 + 1, animationDirection: _p2} : {timeIntervals: _p4, currentTimeInterval: _p3 - 1, animationDirection: _p2}));
 };
 
-var _Derryrover$spirograph$SpirographAverage$circle = F4(
-	function (cir1, cir2, maxi, curr) {
-		var fraction = _elm_lang$core$Basics$toFloat(curr) / _elm_lang$core$Basics$toFloat(maxi);
-		var dSpeed = cir2.speed - cir1.speed;
-		var newSpeed = cir1.speed + (dSpeed * fraction);
-		var dRadius = cir2.radius - cir1.radius;
-		var newRadius = cir1.radius + _elm_lang$core$Basics$round(
-			_elm_lang$core$Basics$toFloat(dRadius) * fraction);
-		return {radius: newRadius, speed: newSpeed};
-	});
-var _Derryrover$spirograph$SpirographAverage$spirograph = F4(
-	function (spir1, spir2, maxi, curr) {
-		var circle2 = A4(_Derryrover$spirograph$SpirographAverage$circle, spir1.circle2, spir2.circle2, maxi, curr);
-		var circle1 = A4(_Derryrover$spirograph$SpirographAverage$circle, spir1.circle1, spir2.circle1, maxi, curr);
-		return {circle1: circle1, circle2: circle2};
-	});
-var _Derryrover$spirograph$SpirographAverage$a = 1;
-
 var _Derryrover$spirograph$MainState$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$batch(
 		{
@@ -8998,17 +9482,11 @@ var _Derryrover$spirograph$MainState$subscriptions = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _Derryrover$spirograph$MainState$circle4 = {radius: 130, speed: 1};
-var _Derryrover$spirograph$MainState$circle3 = {radius: 70, speed: 29};
-var _Derryrover$spirograph$MainState$spirograph2 = {circle1: _Derryrover$spirograph$MainState$circle3, circle2: _Derryrover$spirograph$MainState$circle4};
-var _Derryrover$spirograph$MainState$circle2 = {radius: 140, speed: 1};
-var _Derryrover$spirograph$MainState$circle1 = {radius: 60, speed: 13};
-var _Derryrover$spirograph$MainState$spirograph1 = {circle1: _Derryrover$spirograph$MainState$circle1, circle2: _Derryrover$spirograph$MainState$circle2};
-var _Derryrover$spirograph$MainState$timingRecord = {timeIntervals: 80, currentTimeInterval: 0, animationDirection: _Derryrover$spirograph$MainTypes$To};
+var _Derryrover$spirograph$MainState$timingRecord = {timeIntervals: 600, currentTimeInterval: 0, animationDirection: _Derryrover$spirograph$MainTypes$To};
 var _Derryrover$spirograph$MainState$makeSpiro = F2(
 	function (spiro, samples) {
 		var sampleList = _Derryrover$spirograph$DevideTwoPiEqual$devide(samples);
-		var coordinateList = A3(_Derryrover$spirograph$Spirograph$calculateCoordinateList, sampleList, spiro.circle1, spiro.circle2);
+		var coordinateList = A3(_Derryrover$spirograph$SpirographToCoordinates$calculateCoordinateList, sampleList, spiro.circle1, spiro.circle2);
 		return A2(
 			_elm_lang$core$List$map,
 			function (p) {
@@ -9018,21 +9496,75 @@ var _Derryrover$spirograph$MainState$makeSpiro = F2(
 	});
 var _Derryrover$spirograph$MainState$update = F2(
 	function (msg, model) {
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					timingRecord: _Derryrover$spirograph$TimeIntervalCalculator$calc(model.timingRecord)
-				}),
-			_1: _Derryrover$spirograph$PortSendCoordinates$sendCoordinates3(
-				A2(
-					_Derryrover$spirograph$MainState$makeSpiro,
-					A4(_Derryrover$spirograph$SpirographAverage$spirograph, model.spirograph1, model.spirograph2, model.timingRecord.timeIntervals, model.timingRecord.currentTimeInterval),
-					model.samples))
-		};
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Frame':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							timingRecord: _Derryrover$spirograph$TimeIntervalCalculator$calc(model.timingRecord)
+						}),
+					_1: _Derryrover$spirograph$PortSendCoordinates$sendCoordinates3(
+						A2(
+							_Derryrover$spirograph$MainState$makeSpiro,
+							A4(_Derryrover$spirograph$SpirographAverage$spirograph, model.spirograph1, model.spirograph2, model.timingRecord.timeIntervals, model.timingRecord.currentTimeInterval),
+							model.samples))
+				};
+			case 'SpirographMsg1':
+				var _p1 = A2(_Derryrover$spirograph$SpirographMain$update, _p0._0, model.spirograph1);
+				var spModel = _p1._0;
+				var spiroMsg = _p1._1;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{spirograph1: spModel}),
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: A2(_elm_lang$core$Platform_Cmd$map, _Derryrover$spirograph$MainTypes$SpirographMsg1, spiroMsg),
+							_1: {
+								ctor: '::',
+								_0: _Derryrover$spirograph$PortSendCoordinates$sendCoordinates1(
+									A2(_Derryrover$spirograph$MainState$makeSpiro, spModel, model.samples)),
+								_1: {ctor: '[]'}
+							}
+						})
+				};
+			default:
+				var _p2 = A2(_Derryrover$spirograph$SpirographMain$update, _p0._0, model.spirograph2);
+				var spModel = _p2._0;
+				var spiroMsg = _p2._1;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{spirograph2: spModel}),
+					_1: _elm_lang$core$Platform_Cmd$batch(
+						{
+							ctor: '::',
+							_0: A2(_elm_lang$core$Platform_Cmd$map, _Derryrover$spirograph$MainTypes$SpirographMsg2, spiroMsg),
+							_1: {
+								ctor: '::',
+								_0: _Derryrover$spirograph$PortSendCoordinates$sendCoordinates2(
+									A2(_Derryrover$spirograph$MainState$makeSpiro, spModel, model.samples)),
+								_1: {ctor: '[]'}
+							}
+						})
+				};
+		}
 	});
-var _Derryrover$spirograph$MainState$initialModel = {spirograph1: _Derryrover$spirograph$MainState$spirograph1, spirograph2: _Derryrover$spirograph$MainState$spirograph2, samples: 500, timingRecord: _Derryrover$spirograph$MainState$timingRecord};
+var _Derryrover$spirograph$MainState$initialModel = function () {
+	var _p3 = _Derryrover$spirograph$SpirographMain$init(false);
+	var spiro2 = _p3._0;
+	var msg2 = _p3._1;
+	var _p4 = _Derryrover$spirograph$SpirographMain$init(true);
+	var spiro1 = _p4._0;
+	var msg1 = _p4._1;
+	return {spirograph1: spiro1, spirograph2: spiro2, samples: 300, timingRecord: _Derryrover$spirograph$MainState$timingRecord};
+}();
 var _Derryrover$spirograph$MainState$init = {
 	ctor: '_Tuple2',
 	_0: _Derryrover$spirograph$MainState$initialModel,

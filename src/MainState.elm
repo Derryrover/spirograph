@@ -2,12 +2,16 @@ port module MainState exposing (..)
 
 import MainTypes exposing (Model, Msg(..), Direction(..))
 import PortSendCoordinates
-import Spirograph
+
+import SpirographMain
+import SpirographTypes
+import SpirographToCoordinates
+import SpirographAverage
 import DevideTwoPiEqual
 import AnimationFrame
 import TimeIntervalCalculator
-import SpirographAverage
 
+init: ( Model, Cmd Msg )
 init =
     ( initialModel
     , Cmd.batch
@@ -15,66 +19,55 @@ init =
        , PortSendCoordinates.sendCoordinates2 (makeSpiro initialModel.spirograph2 initialModel.samples)
        , PortSendCoordinates.sendCoordinates3 (makeSpiro initialModel.spirograph1 initialModel.samples)])
 
-{-}
+initialModel: Model
 initialModel =
-  { circle1 = circle1
-  , circle2 = circle2
-  , samples = 1000
-  }
--}
+  let
+    (spiro1, msg1) = SpirographMain.init True
+    (spiro2, msg2) = SpirographMain.init False
+  in
+    { spirograph1 = spiro1
+    , spirograph2 = spiro2
+    , samples = 300
+    , timingRecord = timingRecord
+    }
 
-initialModel =
-  { spirograph1 = spirograph1
-  , spirograph2 = spirograph2
-  , samples = 500
-  , timingRecord = timingRecord
-  }
-
+makeSpiro: SpirographTypes.Model -> Int -> List Int
 makeSpiro spiro samples =
    let
      sampleList = DevideTwoPiEqual.devide samples
-     coordinateList = Spirograph.calculateCoordinateList sampleList spiro.circle1 spiro.circle2
+     coordinateList = SpirographToCoordinates.calculateCoordinateList sampleList spiro.circle1 spiro.circle2
    in
      List.map (\p -> p + 200) coordinateList
 
+timingRecord: MainTypes.TimingRecord
 timingRecord =
-  { timeIntervals = 80
+  { timeIntervals = 600
   , currentTimeInterval = 0
   , animationDirection = To }
 
-circle1 =
-  { radius = 60
-  , speed = 13
-  }
-
-circle2 =
-    { radius = 140
-    , speed = 1
-    }
-
-circle3 =
-  { radius = 70
-  , speed = 29
-  }
-
-circle4 =
-  { radius = 130
-  , speed = 1
-  }
-
-spirograph1 =
-  { circle1 = circle1
-  , circle2 = circle2 }
-
-spirograph2 =
-  { circle1 = circle3
-  , circle2 = circle4 }
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  ( { model | timingRecord = TimeIntervalCalculator.calc model.timingRecord}
-    , PortSendCoordinates.sendCoordinates3
-      (makeSpiro (SpirographAverage.spirograph model.spirograph1 model.spirograph2 model.timingRecord.timeIntervals model.timingRecord.currentTimeInterval) model.samples))
+  case msg of
+    Frame fl ->
+      ( { model | timingRecord = TimeIntervalCalculator.calc model.timingRecord}
+        , PortSendCoordinates.sendCoordinates3
+          (makeSpiro (SpirographAverage.spirograph model.spirograph1 model.spirograph2 model.timingRecord.timeIntervals model.timingRecord.currentTimeInterval) model.samples))
+    SpirographMsg1 spMsg ->
+      let
+        (spModel, spiroMsg) = SpirographMain.update spMsg model.spirograph1
+      in
+        ( {model | spirograph1 = spModel}
+        , Cmd.batch
+          [ Cmd.map SpirographMsg1 spiroMsg
+          , PortSendCoordinates.sendCoordinates1 (makeSpiro spModel model.samples)])
+    SpirographMsg2 spMsg ->
+      let
+        (spModel, spiroMsg) = SpirographMain.update spMsg model.spirograph2
+      in
+        ( {model | spirograph2 = spModel}
+        , Cmd.batch 
+          [ Cmd.map SpirographMsg2 spiroMsg
+          , PortSendCoordinates.sendCoordinates2 (makeSpiro spModel model.samples)])
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

@@ -1,31 +1,18 @@
 module MainTypes exposing (..)
 
+import SpirographTypes
+
+
 type alias Model =
-   { spirograph1: SpirographModel
-   , spirograph2: SpirographModel
+   { spirograph1: SpirographTypes.Model--SpirographModule.Model--SpirographModel
+   , spirograph2: SpirographTypes.Model
    , samples: Int
    , timingRecord: TimingRecord}
 
-{-
-    { circle1 : Circle
-    , circle2 : Circle
-    , samples : Int
-    }
--}
-
-type alias Circle =
-    { radius : Int
-    , speed : Float
-    }
-
 type Msg
-    = Frame Float
+    = Frame Float | SpirographMsg1 SpirographTypes.Msg | SpirographMsg2 SpirographTypes.Msg
 
 type Direction = To | Back
-
-type alias SpirographModel =
-  { circle1: Circle
-  , circle2: Circle }
 
 type alias TimingRecord =
   { timeIntervals: Int
